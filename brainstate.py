@@ -4,11 +4,14 @@
 
 
 #generate coordinate system using MAPPING/node_generator.py
+#node_generator.py  COMMAND FUNCTION: node_generator(x,y) INPUTS: a1 locations measured by camera
 
-
+MAP=node_generator
 
 #check the gps coordinates using RFM69/parsedGPS.py
+#parsedGPS.py COMMAND FUNCTION: gpsgo()
 
+[ROB,PSG,DES]=gpsgo()
 
 
 #find closest node information using node finder
@@ -16,12 +19,24 @@
 
 
 #use pathfinder algorithm for proper driver location Dijkstra
+#dijkstra.py COMMAND FUNCTION: pathdata("start","end") INPUTS: ex. pathdata("a1","d2")
 
+PATH=pathdata(start,end)
 
-#Send drive instructions to arduino
+#asses drive instructions per node. Continuous loop to send node case until next node is in range. Then send next node drive instructions. 
+#connections.py  COMMAND FUNCTION: connections(directions)
 
-
-
+CONNECT=connections(PATH)
+  while (i<(len(PATH)-1)):
+    PING=gpsgo()
+    ROB=PING[1] 
+    wh
+    #calculates drive instructions
+    drive_instruct=instruction(CONNECT[i])
+    #Send drive instructions to arduino using i2c communications
+    #PIi2c.py  COMMAND FUNCTION: speakpi("hello"), readarduino() 
+    speakpi(drive_instruct)
+    
 #once final node before passenger is achieved run algorithm for Arduino to drive until passenger is found
 
 
