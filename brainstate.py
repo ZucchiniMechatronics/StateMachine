@@ -10,27 +10,38 @@ MAP=node_generator
 
 #check the gps coordinates using RFM69/parsedGPS.py
 #parsedGPS.py COMMAND FUNCTION: gpsgo()
-print(Phase 2 GPS')
+print('Phase 2 GPS')
 [ROB,PSG,DES]=gpsgo()
 
 
 #find closest node information using node finder
-
+END=closest_node(PSG)
+START_DIST=closest_node(ROB).item(0)
+#set TOLERANCE greater than motor step
+TOL=5
+#for start location move robot forward some increment and check GPS and use closest node until we get a start position
+while (START_DIST>TOL):
+  drive_instuct=speakit("straight_increment")
+  print readarduino()
+  ROB=gpsgo().item(0)
+  START_DIST=closest_node(ROB).item(0)
+START=closest_node(ROB).item(1)
+  
 
 
 #use pathfinder algorithm for proper driver location Dijkstra
 #dijkstra.py COMMAND FUNCTION: pathdata("start","end") INPUTS: ex. pathdata("a1","d2")
 print('Phase 3 Path finding')
-PATH=pathdata(start,end)
+PATH=pathdata(START,END)
 
 #asses drive instructions per node. Continuous loop to send node case until next node is in range. Then send next node drive instructions. 
 #connections.py  COMMAND FUNCTION: connections(directions)
 print('Phase 4 connections')
 CONNECT=connections(PATH)
 
-print('Phase 5
+print('Phase 5 node connection drive instructions')
 i=0
-  while (i<(len(PATH)-1)):
+while (i<(len(PATH)-1)):
     PING=gpsgo()
     ROB=PING[1] 
     
