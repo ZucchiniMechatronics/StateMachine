@@ -21,7 +21,7 @@ START_DIST=closest_node(ROB).item(0)
 TOL=5
 #for start location move robot forward some increment and check GPS and use closest node until we get a start position
 while (START_DIST>TOL):
-  drive_instuct=speakit("straight_increment")
+  drive_instuct=speakit("straight")
   print readarduino()
   ROB=gpsgo().item(0)
   START_DIST=closest_node(ROB).item(0)
@@ -40,12 +40,27 @@ print('Phase 4 connections')
 CONNECT=connections(PATH)
 
 print('Phase 5 node connection drive instructions')
+
 i=0
 while (i<(len(PATH)-1)):
-    PING=gpsgo()
-    ROB=PING[1] 
-    
-    #calculates drive instructions
+    if (connect[i]=='straight'):
+      go_straight(connect[i,1])
+      i=+1
+    elif (connect[i]=='right'):
+      go_right(connect[i,1])
+      i=+1         
+    elif (connect[i]=='left'):
+      go_left(connect[i,1])
+      i=+1
+    elif (connect[i]=='left_tight'):
+      go_left_tight(connect[i,1])
+      i=+1
+    else:
+      print('final node before passanger reached')
+      i=+1
+#break while loop _____________________________________________________________________________________________________              
+               
+               
     drive_instruct=instruction(CONNECT[i])
     #Send drive instructions to arduino using i2c communications
     #PIi2c.py  COMMAND FUNCTION: speakpi("hello"), readarduino() 
