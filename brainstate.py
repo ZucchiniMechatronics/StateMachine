@@ -2,18 +2,21 @@
 #import the correct files and registers
 
 
+#MAP___________________________________________________________________________________________________________________
 
 #generate coordinate system using MAPPING/node_generator.py
 #node_generator.py  COMMAND FUNCTION: node_generator(x,y) INPUTS: a1 locations measured by camera
 print('Phase 1 MAPPING')
 MAP=node_generator
 
+#GPS_______________________________________________________________________________________________________________________________________________________
+
 #check the gps coordinates using RFM69/parsedGPS.py
 #parsedGPS.py COMMAND FUNCTION: gpsgo()
 print('Phase 2 GPS')
 [ROB,PSG,DES]=gpsgo()
 
-
+#CLOSEST NODE___________________________________________________________________________________________________________________
 #find closest node information using node finder
 END=closest_node(PSG)
 START_DIST=closest_node(ROB).item(0)
@@ -28,6 +31,7 @@ while (START_DIST>TOL):
 START=closest_node(ROB).item(1)
   
 
+#PATH AND DRIVE INSTRUCTIONS___________________________________________________________________________________________________________________
 
 #use pathfinder algorithm for proper driver location Dijkstra
 #dijkstra.py COMMAND FUNCTION: pathdata("start","end") INPUTS: ex. pathdata("a1","d2")
@@ -38,33 +42,33 @@ PATH=pathdata(START,END)
 #connections.py  COMMAND FUNCTION: connections(directions)
 print('Phase 4 connections')
 CONNECT=connections(PATH)
-
+INSTRUCT=instruction(CONNECT)
 print('Phase 5 node connection drive instructions')
-
-i=0
-while (i<(len(PATH)-1)):
-    if (connect[i]=='straight'):
-      go_straight(connect[i,1])
-      i=+1
-    elif (connect[i]=='right'):
-      go_right(connect[i,1])
-      i=+1         
-    elif (connect[i]=='left'):
-      go_left(connect[i,1])
-      i=+1
-    elif (connect[i]=='left_tight'):
-      go_left_tight(connect[i,1])
-      i=+1
-    else:
-      print('final node before passanger reached')
-      i=+1
-#break while loop _____________________________________________________________________________________________________              
-               
-               
-    drive_instruct=instruction(CONNECT[i])
     #Send drive instructions to arduino using i2c communications
     #PIi2c.py  COMMAND FUNCTION: speakpi("hello"), readarduino() 
-    speakpi(drive_instruct)
+i=0
+while (i<(len(PATH)-1)):
+    if (INSTRUCT[i]=='straight'):
+      go_straight(connect[1,i])
+      i+=1
+    elif (INSTRUCT[i]=='right'):
+      go_right(connect[1,i])
+      i+=1         
+    elif (INSTRUCT[i]=='left'):
+      go_left(connect[1,i])
+      i+=1
+    elif (INSTRUCT[i]=='left_tight'):
+      go_left_tight(connect[1,i])
+      i+=1
+    else:
+      print('final node before passanger reached')
+      i+=1
+
+#GET TO PASSENGER_____________________________________________________________________________________________________              
+               
+               
+
+    
     
 #once final node before passenger is achieved run algorithm for Arduino to drive until passenger is found
 
