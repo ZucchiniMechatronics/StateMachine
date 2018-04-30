@@ -55,13 +55,13 @@ while (i<(len(PATH)-1)):
       go_straight(TARGET)
       i+=1
     elif (INSTRUCT[i]=='right'):
-      go_right(TARGET)
+      go_right()
       i+=1         
     elif (INSTRUCT[i]=='left'):
-      go_left(TARGET)
+      go_left()
       i+=1
     elif (INSTRUCT[i]=='left_tight'):
-      go_left_tight(TARGET)
+      go_left_tight()
       i+=1
     else:
       print('final node before passenger reached')
@@ -93,13 +93,13 @@ while (i<(len(PATH)-1)):
       go_straight(TARGET)
       i+=1
     elif (INSTRUCT[i]=='right'):
-      go_right(TARGET)
+      go_right()
       i+=1         
     elif (INSTRUCT[i]=='left'):
-      go_left(TARGET)
+      go_left()
       i+=1
     elif (INSTRUCT[i]=='left_tight'):
-      go_left_tight(TARGET)
+      go_left_tight()
       i+=1
     else:
       print('final node before passenger reached')
@@ -107,7 +107,7 @@ while (i<(len(PATH)-1)):
       
 #DRIVE SLOW THROUGH DROP OFF__________________________________________________________________________________________________
 #once final node closest to destination is reached. drive and continuous check gps until range value is reached
-
+FINAL_DEST=DES[:-1]
 go_straight(FINAL_DEST)
 #drop off passenger using lasso commands
 speakit('d')
