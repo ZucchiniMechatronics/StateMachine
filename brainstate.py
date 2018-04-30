@@ -88,22 +88,22 @@ INSTRUCT=instruction(CONNECT)
 #send drive instructions to arudino
 i=0
 while (i<(len(PATH)-1)):
-  TARGET = node2cord(CONNECT[1,i])
-  if (INSTRUCT[i]=='straight'):
-    go_straight(connect[1,i])
-    i+=1
-  elif (INSTRUCT[i]=='right'):
-    go_right(connect[1,i])
-    i+=1         
-  elif (INSTRUCT[i]=='left'):
-    go_left(connect[1,i])
-    i+=1
-  elif (INSTRUCT[i]=='left_tight'):
-    go_left_tight(connect[1,i])
-    i+=1
-  else:
-    print('final node before passanger reached')
-    i+=1
+    TARGET = node2cord(CONNECT[1,i])
+    if (INSTRUCT[i]=='straight'):
+      go_straight(TARGET)
+      i+=1
+    elif (INSTRUCT[i]=='right'):
+      go_right(TARGET)
+      i+=1         
+    elif (INSTRUCT[i]=='left'):
+      go_left(TARGET)
+      i+=1
+    elif (INSTRUCT[i]=='left_tight'):
+      go_left_tight(TARGET)
+      i+=1
+    else:
+      print('final node before passenger reached')
+      i+=1
       
 #DRIVE SLOW THROUGH DROP OFF__________________________________________________________________________________________________
 #once final node closest to destination is reached. drive and continuous check gps until range value is reached
